@@ -41,12 +41,12 @@ def load_data(path = "./10_Data"):
     for file in file_names:
         data_params_dict = {"d_x" : 0,"d_y" : 1,"d_z" : 2,"t_x" : 3,"t_y" : 4,"p_x" : 5,"p_y" : 6,"field_x" : 7, "field_y" : 8 }
         with open(path + "/" + file, mode='r',encoding='utf-8') as f:
-            result = [[float(x) for x in line.split(",")] for line in f]
-            data_image = np.array(result, dtype=np.float)                                                         # Loads the contents of the image into numpy array
+            result = [[np.double(x) for x in line.split(",")] for line in f]
+            data_image = np.array(result, dtype=np.double)                                                         # Loads the contents of the image into numpy array
             file_parameters = re.findall(r'[-+]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?', os.path.basename(f.name))  # Regex to find all associated parameters held in text file name
 
         for key, val in data_params_dict.items():                   # Assigns the found values to the associated key in data_params_dict
-            data_params_dict[key] = float(file_parameters[val])
+            data_params_dict[key] = np.double(file_parameters[val])
 
         x_c, y_c = find_star_centroding(data_image)                 # Updates the PSF with centroding value due to cropping
         data_params_dict['p_x'] += x_c
