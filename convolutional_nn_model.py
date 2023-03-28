@@ -14,13 +14,12 @@ from torch.utils import data
 from torch.utils.data import DataLoader, Dataset
 from torchvision.transforms import ToTensor
 import torchvision.transforms as tf
-from torch.utils.tensorboard import SummaryWriter
 from sklearn.model_selection import train_test_split
 from utils import *
 import matplotlib.pyplot as plt
 
 Learning_Rate=1e-5 # Learning_Rate: is the step size of the gradient descent during the training.
-width=height=100   # Width and height are the dimensions of the image used for training. All images during the training processes will be resized to this size.
+width=height=100   # Width and height are the dimensions of the image used for training. Images are static at 100x100
 batchSize=1        # batchSize: is the number of images that will be used for each iteration of the training.
 
 '''
@@ -56,7 +55,7 @@ class LBT_Custom_Dataset(Dataset):
 
     def __getitem__(self, idx):
         img = self.data.iloc[idx]['data_img']
-        img = np.expand_dims(img, axis=0)  # add channel dimension
+        img = np.expand_dims(img, axis=0)
         px = self.data.iloc[idx]['p_x']
         py = self.data.iloc[idx]['p_y']
         label = self.labels.iloc[idx].values.astype(np.float64)
@@ -90,19 +89,19 @@ if __name__ == '__main__':
     val_dataloader = DataLoader(val_dataset, batch_size=32, shuffle=False)  # Create a validation DataLoader
 
     model = CNN()
-    model = model.double()
+    model = model.double().to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     num_epochs = 200
     running_loss = 0.0
 
     for epoch in range(num_epochs):
         for i , batch in enumerate(dataloader,0):
-            imgs = batch['img']
-            pxs = batch['px'].reshape(-1, 1)
-            pys = batch['py'].reshape(-1, 1)
+            imgs = batch['img'].to(device)
+            pxs = batch['px'].reshape(-1, 1).to(device)
+            pys = batch['py'].reshape(-1, 1).to(device)
             inputs = imgs
             outputs = model(inputs, pxs, pys)
-            labels = batch['label']
+            labels = batch['label'].to(device)
             loss = nn.functional.mse_loss(outputs, labels)
 
             optimizer.zero_grad()
@@ -116,12 +115,12 @@ if __name__ == '__main__':
         val_batch_count = 0
         with torch.no_grad():
             for i, val_batch in enumerate(val_dataloader, 0):
-                val_imgs = val_batch['img']
-                val_pxs = val_batch['px'].reshape(-1, 1)
-                val_pys = val_batch['py'].reshape(-1, 1)
+                val_imgs = val_batch['img'].to(device)
+                val_pxs = val_batch['px'].reshape(-1, 1).to(device)
+                val_pys = val_batch['py'].reshape(-1, 1).to(device)
                 val_inputs = val_imgs
                 val_outputs = model(val_inputs, val_pxs, val_pys)
-                val_labels = val_batch['label']
+                val_labels = val_batch['label'].to(device)
                 val_batch_loss = nn.functional.mse_loss(val_outputs, val_labels)
                 val_loss += val_batch_loss.item()
                 val_batch_count += 1
@@ -147,7 +146,6 @@ if __name__ == '__main__':
     # Iterate over test data
     with torch.no_grad():
         for batch in test_loader:
-            # Get inputs and targets
             imgs = batch['img'].to(device)
             pxs = batch['px'].reshape(-1, 1).to(device)
             pys = batch['py'].reshape(-1, 1).to(device)
