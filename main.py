@@ -22,10 +22,14 @@ from utils import *
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+''' 
+main.py is currently just being used to generate the dataframe. Check 
+cnn_model and regression_model to run actual code.
+'''
 
 if __name__ == '__main__':
-    p = load_data("10_Data")
-    save_dataframe(p, "10_data.pt")
-    test_df = load_dataframe('10_data.pt')
+    df = load_dataframe('10_data.pt')
+    save_dataframe_as_csv(df, '10_data.csv')
+
 
 

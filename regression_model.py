@@ -48,6 +48,9 @@ def grid_search(df):
     score = best_model.score(X_test, y_test)
     print(f'R^2 score: {score}')
 
+'''
+Basic Linear Classifier
+'''
 def linear_classifier(df):
     model = LinearRegression()
     X = df[['p_x', 'p_y']]  # Input Features

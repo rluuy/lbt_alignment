@@ -22,9 +22,6 @@ Learning_Rate=1e-5 # Learning_Rate: is the step size of the gradient descent dur
 width=height=100   # Width and height are the dimensions of the image used for training. Images are static at 100x100
 batchSize=1        # batchSize: is the number of images that will be used for each iteration of the training.
 
-'''
-10_Data has 675 Data Samples
-'''
 
 class CNN(nn.Module):
     def __init__(self):
@@ -109,7 +106,6 @@ if __name__ == '__main__':
             optimizer.step()
 
         train_losses.append(loss.item())
-
 
         val_loss = 0.0
         val_batch_count = 0

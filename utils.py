@@ -10,8 +10,14 @@ import matplotlib.image as mpimg
 import numpy as np
 import utils
 
+'''
+utils.py contains helper functions that deal mostly with file I/O and data_preprocessing
+'''
+
+
 ''' 
-Find Star Centroding
+Find Star Centroding. Necessary because we generated the star image in a cropped out zone. 
+Therefore we need to recenter it in order to get an accurate PSF value.
 
 '''
 def find_star_centroding(data_image):
@@ -30,7 +36,7 @@ def find_star_centroding(data_image):
     return centroid_x, centroid_y
 
 '''
-load_data loads both the image data and associated parameters into a pandas dataframe.
+load_data loads both the image data and associated parameters (filename) into a pandas dataframe.
 '''
 def load_data(path = "./10_Data"):
 
@@ -59,14 +65,23 @@ def load_data(path = "./10_Data"):
     df = pd.DataFrame(pd_info_list)
     return df
 
+'''
+Saves Dataframe as a file in current directory
+'''
 def save_dataframe(dataframe , path):
     with open(path, "wb") as file:
         dataframe.to_pickle(path)
     file.close()
 
+'''
+Saves Dataframe as a CSV in current directory
+'''
 def save_dataframe_as_csv(dataframe, path):
     dataframe.to_csv(path)
 
+'''
+Loads Dataframe
+'''
 def load_dataframe(path):
      with open(path, "rb") as file:
          df = pickle.load(file)
