@@ -74,7 +74,7 @@ if __name__ == '__main__':
     val_losses = []
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Can we use CUDA: " + str(torch.cuda.is_available()))
-    df = load_dataframe("10_data.pt")
+    df = load_dataframe("20_data.pt")
 
 
     train_val, test = train_test_split(df, test_size=0.2, random_state=42)

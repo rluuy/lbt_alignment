@@ -1,0 +1,11 @@
+10_Data_Score
+Linear Regression R^2 score: 0.4286011069892973
+Random Forest R^2 score: 0.4842484318359581
+KNN R^2 score: 0.40019263721998144
+Gradient Boosting R^2 score: 0.4830593120355777
+
+20_Data_Score
+Linear Regression R^2 score: 0.44081454398688785
+Random Forest R^2 score: 0.48174973573261165
+KNN R^2 score: 0.39264545527915
+Gradient Boosting R^2 score: 0.475378658697797

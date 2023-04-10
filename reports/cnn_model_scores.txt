@@ -1,0 +1,5 @@
+10_Data => Conv1 -> Pool1 -> Conv2 -> FC1 -> FC2
+MSE: 0.9741
+
+20_Data => Conv1 -> Pool1 -> Conv2 -> FC1 -> FC2
+MSE: 0.6202
