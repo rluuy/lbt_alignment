@@ -31,12 +31,24 @@ Make sure to unzip the files if they are still compressed then run the code belo
 Check cnn_model and regression_model to run actual models.
 '''
 
+
+''' 
+Use this function if after unzipping 10_Data or 20_Data into current directory
+'''
+def raw_data_to_dataframe(path, filename_pickle, filename_csv):
+    df = load_data(path)
+    save_dataframe(df, filename_pickle)
+    save_dataframe_as_csv(df, filename_csv)
+
 if __name__ == '__main__':
-    df_ten = load_data('./10_Data')
-    df_twenty = load_data('./20_Data')
-    save_dataframe(df_ten, '10_Data.pt')
-    save_dataframe(df_ten, '20_Data.pt')
-    df = load_dataframe('10_data.pt')
+    raw_data_to_dataframe('10_data', '10_data.pt', '10_data.csv')
+
+
+    # df_ten = load_data('./10_Data')
+    # df_twenty = load_data('./20_Data')
+    # save_dataframe(df_ten, 'processed_data/10_Data.pt')
+    # save_dataframe(df_ten, 'processed_data/20_Data.pt')
+
 
 
 
