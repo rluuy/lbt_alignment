@@ -164,7 +164,7 @@ def gradient_boosting(df):
 
 
 if __name__ == '__main__':
-    test_df = load_dataframe('10_Data.pt')
+    test_df = load_dataframe('processed_data/10_Data.pt')
     linear_classifier(test_df)
     random_forest(test_df)
     knn_regressor(test_df)

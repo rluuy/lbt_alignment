@@ -86,3 +86,4 @@ def load_dataframe(path):
      with open(path, "rb") as file:
          df = pickle.load(file)
          return df
+
