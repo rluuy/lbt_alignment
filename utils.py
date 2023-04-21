@@ -87,3 +87,16 @@ def load_dataframe(path):
          df = pickle.load(file)
          return df
 
+def unzip_raw_data_10_20(path=None):
+
+    if path is None:
+        path = '.'
+
+    df_ten = load_data(f'10_Data')
+    df_twenty = load_data(f'20_Data')
+    save_dataframe(df_ten, f'{path}/10_Data.pt')
+    save_dataframe(df_twenty, f'{path}/20_Data.pt')
+    save_dataframe_as_csv(df_ten, f'{path}/10_data.csv')
+    save_dataframe_as_csv(df_twenty, f'{path}/20_data.csv')
+
+    return df_ten,df_twenty

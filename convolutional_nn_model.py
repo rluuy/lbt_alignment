@@ -74,7 +74,7 @@ if __name__ == '__main__':
     val_losses = []
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Can we use CUDA: " + str(torch.cuda.is_available()))
-    df = load_dataframe("processed_data/20_Data.pt")
+    df = load_dataframe("10_data.pt")
 
 
     train_val, test = train_test_split(df, test_size=0.2, random_state=42)
@@ -90,9 +90,6 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     num_epochs = 200
     running_loss = 0.0
-    patience = 5  # Number of epochs to wait without improvement before stopping
-    best_val_loss = float('inf')  # Best validation loss so far
-    epochs_without_improvement = 0  # Counter for epochs without improvement
 
     for epoch in range(num_epochs):
         for i , batch in enumerate(dataloader,0):
@@ -128,17 +125,6 @@ if __name__ == '__main__':
         val_losses.append(avg_val_loss)
         print(f'Epoch {epoch + 1}/{num_epochs}, Training Loss: {loss.item()}, Validation Loss: {avg_val_loss}')
 
-         # Update early stopping parameters
-        if avg_val_loss < best_val_loss:
-            best_val_loss = avg_val_loss
-            epochs_without_improvement = 0
-        else:
-            epochs_without_improvement += 1
-
-        # Check early stopping condition
-        if epochs_without_improvement >= patience:
-            print(f"Early stopping triggered after {epoch + 1} epochs")
-            break
 
     plot_losses(train_losses, val_losses)
     # Set model to evaluation mode
