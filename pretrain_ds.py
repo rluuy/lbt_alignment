@@ -7,23 +7,23 @@ import matplotlib.pyplot as plt
 from torch.utils.data import TensorDataset
 
 
-class CustomPretrain5MNIST(torchvision.datasets.MNIST):
+class C5MNIST(torchvision.datasets.MNIST):
     def create_custom(self):
         ds_len = self.data.shape[0]
         placeholder_ds = []
         placeholder_lbls = []
         max_idx = ((100 * 72) - 1)
 
-        for idx in range(0,ds_len):
+        for idx in range(0,ds_len//5):
             picks = random.sample(range(0, ds_len), 5)
             new_img = torch.zeros(100,100)
             new_lbl = torch.zeros(5)
 
-            start_locs_r = random.sample(range(0, 100-28), 5)
-            start_locs_h = random.sample(range(0, 100-28), 5)
+            start_locs_r = [0, 71, 0,  71, 36]#random.sample(range(0, 100-28), 5)
+            start_locs_c = [0, 0,  71, 71, 36]#random.sample(range(0, 100-28), 5)
             for i in range(5):
                 start_r = (start_locs_r[i] // 100)
-                start_c = (start_locs_h[i] % 100)
+                start_c = (start_locs_c[i] % 100)
                 cur_pick = self.data[picks[i]]
                 new_img[start_r:start_r+28, start_c:start_c+28] += cur_pick
                 new_lbl[i] = self.targets[picks[i]]

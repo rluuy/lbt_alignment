@@ -20,7 +20,8 @@ from torch import flatten
 import torch.nn.functional as F
 
 from convolutional_nn_model import CNN
-from models import ComboViT, Resnet18CombineFF
+from models import ComboViT, Resnet18CombineFF, FFEnsemble, Resnet50CombineFF, Resnet18CombineAtt, Resnet18StretchAtt, \
+    Resnet18AttnEnsemble, Resnet18AvgEnsemble
 from train import train
 from utils import *
 
@@ -48,8 +49,10 @@ if __name__ == '__main__':
     parser.add_argument('--img_dim', default=100)
     parser.add_argument('--batch_size', default=32)
     parser.add_argument('--lr', default=1e-5)
+    parser.add_argument('--epochs', default=50)
     parser.add_argument('--model', default="CNN")
     parser.add_argument('--pretrain', default=None)
+    parser.add_argument('--pretrain_epochs', default=0)
     args = parser.parse_args()
 
     if not os.path.exists(args.data_path+"/10_Data.pt") and not os.path.exists(args.data_path+"/20_Data.pt"):
@@ -63,12 +66,20 @@ if __name__ == '__main__':
         model = CNN()
     elif args.model == "ComboViT":
         model = ComboViT()
-    elif args.model == "Resnet18Ensemble":
-        model = Resnet18Ensemble()
-    elif args.model == "CNNEnsemble":
-        model = CNNEnsemble()
+    elif args.model == "Resnet50CombineFF":
+        model = Resnet50CombineFF()
+    elif args.model == "FFEnsemble":
+        model = FFEnsemble(device=device)
     elif args.model == "Resnet18CombineFF":
         model = Resnet18CombineFF()
+    elif args.model == "Resnet18CombineAtt":
+        model = Resnet18CombineAtt()
+    elif args.model == "Resnet18StretchAtt":
+        model = Resnet18StretchAtt()
+    elif args.model == "Resnet18AttnEnsemble":
+        model = Resnet18AttnEnsemble()
+    elif args.model == "Resnet18AvgEnsemble":
+        model = Resnet18AvgEnsemble()
     else:
         raise("Error - Model not defined")
 
@@ -76,9 +87,11 @@ if __name__ == '__main__':
 
     lr = float(args.lr)
     hw = int(args.img_dim)
+    epochs = int(args.epochs)
+    pretrain_epochs = int(args.pretrain_epochs)
     batch_size = int(args.batch_size)
     dopretrain = str(args.pretrain)
 
-    train(model, df, lr, hw, batch_size, dopretrain)
+    train(model, df, lr, epochs, pretrain_epochs, hw, batch_size, dopretrain)
 
 

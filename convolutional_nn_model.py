@@ -60,12 +60,13 @@ class LBT_Custom_Dataset(Dataset):
         return sample
 
 def plot_losses(train_losses, validation_losses):
+    plt.clf()
     plt.plot(train_losses, label='Training Loss')
     plt.plot(validation_losses, label='Validation Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
-    plt.show()
+    plt.show(block=False)
 
 
 
@@ -86,7 +87,7 @@ if __name__ == '__main__':
     val_dataloader = DataLoader(val_dataset, batch_size=32, shuffle=False)  # Create a validation DataLoader
 
     model = CNN()
-    model = model.double().to(device)
+    model = model.to(torch.float64).to(device)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     num_epochs = 200
     running_loss = 0.0
