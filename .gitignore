@@ -1,0 +1,10 @@
+10_data.csv
+10_data.pt
+20_data.csv
+20_data.pt
+__pycache__
+.conda
+.idea
+unzip.py
+processed_data.zip
+.DS_Store
